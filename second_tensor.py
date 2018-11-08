@@ -25,7 +25,6 @@ P = 4
 R = 3
 
 def main():
-    print("test")
     sess = tf.InteractiveSession()
 
     # model definition
