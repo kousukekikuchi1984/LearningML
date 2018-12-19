@@ -1,3 +1,14 @@
-# tensorflow
+# LearningML
 
-This repository is for studying tensorflow
+## Libraries
+
+* TensorFlow
+  * Deep Neural Network
+* xgboost
+  * gradient boosting
+* surprise
+  * Collaborative Filtering
+* lightfm
+  * Collaborative Filtering
+* imbalanced_learn
+  * imbalanced dataset modification used for binary classification
