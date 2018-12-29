@@ -106,3 +106,7 @@ venv.bak/
 MQ2008*
 sms-spam-collection-dataset*
 *.csv
+*.pt
+*.tsv
+*.txt
+
