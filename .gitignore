@@ -109,4 +109,4 @@ sms-spam-collection-dataset*
 *.pt
 *.tsv
 *.txt
-
+*.gz
