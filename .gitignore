@@ -110,3 +110,11 @@ sms-spam-collection-dataset*
 *.tsv
 *.txt
 *.gz
+
+## kubeflow related
+kubeflow/deployment/*
+kubeflow/kfapp/*
+kubeflow/scripts/*
+kubeflow/kubeflow/*
+kubeflow/*.py
+

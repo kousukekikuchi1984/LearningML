@@ -275,9 +275,3 @@ workflow-controller-5c95f95f58-xc6bl                      1/1     Running       
 
 ### Jupyter上で機械学習の開始
 
-
-
-
-
-EKSのworkerに使っているインスタンスはどのようにアップデートすれば良いのだろうか。
-
