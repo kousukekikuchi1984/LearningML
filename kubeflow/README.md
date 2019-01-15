@@ -273,5 +273,112 @@ workflow-controller-5c95f95f58-xc6bl                      1/1     Running       
 
 上記にある `jupyter-kou2kkkt` が私のjupyterサーバーらしい。
 
-### Jupyter上で機械学習の開始
+### Seldon Core の install
+
+kubeflowに seldon をインストールするためには、ksonnetのroot directoryで seldon を登録し、installするコマンドを叩く。ksonnet の root directory は `kubeflow/kfapp/ks_app` になる。
+
+```
+$ ks generate seldon seldon --name=kubeflow
+$ ks apply default -c seldon
+```
+
+これにより、seldon の podが生成される。
+
+```
+$ kubectl -n kubeflow get pod
+NAME                                                      READY   STATUS             RESTARTS   AGE
+ambassador-5cf8cd97d5-8rdfg                               1/1     Running            0          3d
+ambassador-5cf8cd97d5-gbpcc                               1/1     Running            0          3d
+ambassador-5cf8cd97d5-pb2fw                               1/1     Running            0          3d
+argo-ui-7c9c69d464-gvvlw                                  1/1     Running            0          3d
+centraldashboard-6f47d694bd-lx54b                         1/1     Running            0          3d
+jupyter-0                                                 1/1     Running            0          3d
+jupyter-kou2kkkt                                          1/1     Running            1          3d
+katib-ui-6bdb7d76cc-gkmrx                                 1/1     Running            0          3d
+kubeflow-redis-5dbcc76b9d-kdpgf                           1/1     Running            0          1m
+kubeflow-seldon-cluster-manager-66b69675f-fprjn           1/1     Running            0          1m
+metacontroller-0                                          1/1     Running            0          3d
+minio-7bfcc6c7b9-d94lk                                    1/1     Running            0          3d
+ml-pipeline-b59b58dd6-q6kh2                               1/1     Running            0          3d
+ml-pipeline-persistenceagent-9ff99498c-7wxz9              1/1     Running            5          3d
+ml-pipeline-scheduledworkflow-78794fd86f-d8vks            1/1     Running            0          3d
+ml-pipeline-ui-9884fd997-vh84l                            1/1     Running            0          3d
+ml-pipelines-load-samples-245wc                           0/1     Completed          0          3d
+mysql-6f6b5f7b64-4bz7q                                    1/1     Running            0          3d
+spartakus-volunteer-595b78786b-bwrdm                      1/1     Running            0          3d
+studyjob-controller-774d45f695-s2msb                      0/1     CrashLoopBackOff   1107       3d
+tf-job-dashboard-5f986cf99d-h6gt8                         1/1     Running            0          3d
+tf-job-operator-v1beta1-5876c48976-p6hd5                  1/1     Running            0          3d
+vizier-core-fc7969897-vk7qs                               1/1     Running            1          3d
+vizier-core-rest-6fcd4665d9-rx9t9                         1/1     Running            0          3d
+vizier-db-777675b958-6z4vj                                1/1     Running            0          3d
+vizier-suggestion-bayesianoptimization-54db8d594f-t4lhx   1/1     Running            0          3d
+vizier-suggestion-grid-6f5d9d647f-pm8zs                   1/1     Running            0          3d
+vizier-suggestion-hyperband-59dd9bb9bc-6tgdp              1/1     Running            0          3d
+vizier-suggestion-random-6dd597c997-qk2zm                 1/1     Running            0          3d
+workflow-controller-5c95f95f58-pck2k                      1/1     Running            0          3d
+```
+
+イメージ作成後に
+
+```
+ks generate seldon-serve-simple-v1alpha2 issue-summarization-model --name=issue-summarization --image=819492823772.dkr.ecr.us-west-2.amazonaws.com/github-issue-summarization:0.1 --replicas=2
+ks apply default -c issue-summarization-model
+```
+
+```
+kubectl -n kubeflow get pod                                                                                      1455ms  Tue Jan 15 09:47:25 2019
+NAME                                                              READY   STATUS             RESTARTS   AGE
+ambassador-5cf8cd97d5-8rdfg                                       1/1     Running            0          3d
+ambassador-5cf8cd97d5-gbpcc                                       1/1     Running            0          3d
+ambassador-5cf8cd97d5-pb2fw                                       1/1     Running            0          3d
+argo-ui-7c9c69d464-gvvlw                                          1/1     Running            0          3d
+centraldashboard-6f47d694bd-lx54b                                 1/1     Running            0          3d
+issue-summarization-issue-summarization-issue-summarizatiob55b8   1/1     Running            0          3m
+issue-summarization-issue-summarization-issue-summarizatiorksqb   1/1     Running            0          3m
+issue-summarization-issue-summarization-svc-orch-75b77fdb97dkqn   1/1     Running            0          3m
+issue-summarization-issue-summarization-svc-orch-75b77fdb9gw9nm   1/1     Running            0          3m
+jupyter-0                                                         1/1     Running            0          3d
+jupyter-kou2kkkt                                                  1/1     Running            1          3d
+katib-ui-6bdb7d76cc-gkmrx                                         1/1     Running            0          3d
+kubeflow-redis-5dbcc76b9d-kdpgf                                   1/1     Running            0          1h
+kubeflow-seldon-cluster-manager-66b69675f-fprjn                   1/1     Running            0          1h
+metacontroller-0                                                  1/1     Running            0          3d
+minio-7bfcc6c7b9-d94lk                                            1/1     Running            0          3d
+ml-pipeline-b59b58dd6-q6kh2                                       1/1     Running            0          3d
+ml-pipeline-persistenceagent-9ff99498c-7wxz9                      1/1     Running            5          3d
+ml-pipeline-scheduledworkflow-78794fd86f-d8vks                    1/1     Running            0          3d
+ml-pipeline-ui-9884fd997-vh84l                                    1/1     Running            0          3d
+ml-pipelines-load-samples-245wc                                   0/1     Completed          0          3d
+mysql-6f6b5f7b64-4bz7q                                            1/1     Running            0          3d
+spartakus-volunteer-595b78786b-bwrdm                              1/1     Running            0          3d
+studyjob-controller-774d45f695-s2msb                              0/1     CrashLoopBackOff   1119       3d
+tf-job-dashboard-5f986cf99d-h6gt8                                 1/1     Running            0          3d
+tf-job-operator-v1beta1-5876c48976-p6hd5                          1/1     Running            0          3d
+vizier-core-fc7969897-vk7qs                                       1/1     Running            1          3d
+vizier-core-rest-6fcd4665d9-rx9t9                                 1/1     Running            0          3d
+vizier-db-777675b958-6z4vj                                        1/1     Running            0          3d
+vizier-suggestion-bayesianoptimization-54db8d594f-t4lhx           1/1     Running            0          3d
+vizier-suggestion-grid-6f5d9d647f-pm8zs                           1/1     Running            0          3d
+vizier-suggestion-hyperband-59dd9bb9bc-6tgdp                      1/1     Running            0          3d
+vizier-suggestion-random-6dd597c997-qk2zm                         1/1     Running            0          3d
+workflow-controller-5c95f95f58-pck2k                              1/1     Running            0          3d
+```
+
+```
+curl -X POST -H 'Content-Type: application/json' -d '{"data":{"ndarray":[["issue overview add a new property to disable detection of image stream files those ended with -is.yml from target directory. expected behaviour by default cube should not process image stream files if user does not set it. current behaviour cube always try to execute -is.yml files which can cause some problems in most of cases, for example if you are using kuberentes instead of openshift or if you use together fabric8 maven plugin with cube"]]}}' http://localhost:8080/seldon/issue-summarization/api/v0.1/predictions
+{
+  "meta": {
+    "puid": "ojgkpku1qfgj3kkjqp5u17aqih",
+    "tags": {
+    },
+    "routing": {
+    }
+  },
+  "data": {
+    "names": ["t:0"],
+    "ndarray": [["add add to to to the to the"]]
+  }
+}
+```
 
